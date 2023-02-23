@@ -8,14 +8,18 @@ void print_square(int size)
 {
 	int L, W;
 
-	for (L = size; L > 0; L--)
+	if (size != 0)
 	{
-		for (W = size; W > 0; W--)
+		for (L = size; L > 0; L--)
 		{
-			_putchar('#');
+			for (W = size; W > 0; W--)
+			{
+				_putchar('#');
+			}
+			_putchar('\n');
 		}
-		_putchar('\n');
-	}
+	} else
+	{
 	_putchar('\n');
-
+	}
 }
