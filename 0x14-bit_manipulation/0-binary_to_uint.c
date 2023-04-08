@@ -27,7 +27,10 @@ unsigned int binary_to_uint(const char *b)
 		}
 		if (b[i] == '1')
 		{
-			converted += power;
+			converted += 1 * power;
+		} else if (b[i] == '0')
+		{
+			converted += 0 * power;
 		}
 		power *= 2;
 	}
