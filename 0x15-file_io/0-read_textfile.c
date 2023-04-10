@@ -22,13 +22,13 @@ ssize_t read_textfile(const char *filename, size_t letters)
 	}
 	c = malloc(sizeof(char) * letters);
 	fp = fopen(filename, "r");
-	if (fp == NULL)
+	if (fp != NULL)
 	{
-		return (0);
+		RD = fread(c, sizeof(char), letters, fp);
+		WR = fwrite(c, sizeof(char), RD, stdout);
+		free(c);
+		fclose(fp);
+		return (WR);
 	}
-	RD = fread(c, sizeof(char), letters, fp);
-	WR = fwrite(c, sizeof(char), RD, stdout);
-	free(c);
-	fclose(fp);
-	return (WR);
+	return (0);
 }
