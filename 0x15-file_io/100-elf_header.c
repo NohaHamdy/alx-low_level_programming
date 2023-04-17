@@ -9,6 +9,7 @@
 void CHECK_ELF_FILE(unsigned char *e_ident);
 void DISPLAY_MAGIC(unsigned char *e_ident);
 void DISPLAY_CLASS(unsigned char *e_ident);
+void DISPLAY_DATA(unsigned char *e_ident);
 /**
  *CHECK_ELF_FILE - a function to check if a file is an ELF file or not
  *@e_ident: Pointer to an array contains numbers as information of ELF file
@@ -67,6 +68,29 @@ void DISPLAY_CLASS(unsigned char *e_ident)
 		break;
 	}
 }
+
+/**
+ *DISPLAY_DATA - function to display data of an ELF file
+ *@e_ident: a poiter to an array of numbers as information of an ELF file
+ */
+void DISPLAY_DATA(unsigned char *e_ident)
+{
+	printf("Data:                              ");
+	switch (e_ident[5])
+	{
+	case 0:
+		printf("none\n");
+		break;
+	case 1:
+		printf("2's complement, little endian\n");
+		break;
+	case 2:
+		printf("2's complement, big endian\n");
+		break;
+	default:
+		printf("<unknown:%02x\n>", e_ident[5]);
+	}
+}
 /**
  *main - program that displays the information contained in the ELF header
  *at the start of an ELF file
@@ -105,8 +129,8 @@ int main(int argc, char *argv[])
 	printf("ELF Header:\n");
 	DISPLAY_MAGIC(H_buff->e_ident);
 	DISPLAY_CLASS(H_buff->e_ident);
+	DISPLAY_DATA(H_buff->e_ident);
 	/**
-	*DISPLAY_DATA(H_buff->e_ident);
 	*DISPLAY_VERSION(H_buff->e_ident);
 	*DISPLAY_OS/ABI(H_buff->e_ident);
 	*DISPLAY_ABI/VERSION(H_buff->ident);
