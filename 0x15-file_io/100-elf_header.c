@@ -10,6 +10,7 @@ void CHECK_ELF_FILE(unsigned char *e_ident);
 void DISPLAY_MAGIC(unsigned char *e_ident);
 void DISPLAY_CLASS(unsigned char *e_ident);
 void DISPLAY_DATA(unsigned char *e_ident);
+void DISPLAY_VERSION(unsigned char *e_ident);
 /**
  *CHECK_ELF_FILE - a function to check if a file is an ELF file or not
  *@e_ident: Pointer to an array contains numbers as information of ELF file
@@ -92,6 +93,23 @@ void DISPLAY_DATA(unsigned char *e_ident)
 	}
 }
 /**
+ *DISPLAY_VERSION - function to display version of an ELF file
+ *@e_ident: a poiter to an array of numbers as information of an ELF file
+ */
+void DISPLAY_VERSION(unsigned char *e_ident)
+{
+	printf("Version:                           %d", e_ident[6]);
+	switch (e_ident[EI_VERSION])
+	{
+	case EV_CURRENT:
+		printf(" (current)\n");
+		break;
+	default:
+		printf("\n");
+		break;
+	}
+}
+/**
  *main - program that displays the information contained in the ELF header
  *at the start of an ELF file
  *@argc: number of arguments in the command line
@@ -130,8 +148,8 @@ int main(int argc, char *argv[])
 	DISPLAY_MAGIC(H_buff->e_ident);
 	DISPLAY_CLASS(H_buff->e_ident);
 	DISPLAY_DATA(H_buff->e_ident);
+	DISPLAY_VERSION(H_buff->e_ident);
 	/**
-	*DISPLAY_VERSION(H_buff->e_ident);
 	*DISPLAY_OS/ABI(H_buff->e_ident);
 	*DISPLAY_ABI/VERSION(H_buff->ident);
 	*DISPLAY_TYPE(H_buff->e_type, H_buff->e_ident);
