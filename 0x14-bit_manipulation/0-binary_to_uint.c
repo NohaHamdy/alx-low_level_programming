@@ -3,7 +3,7 @@
 #include<string.h>
 #include"main.h"
 /**
- *binary_to_unit - function that converts a binary number to an unsigned int
+ *binary_to_uint - a function that converts a binary number to an unsigned int
  *@b: pointing to a string of 0 and 1 chars
  *Return: the converted number or 0
  */
@@ -19,7 +19,7 @@ unsigned int binary_to_uint(const char *b)
 		return (0);
 	}
 	L = strlen(b);
-	for (i = L - 1 ; b[i]; i--)
+	for (i = L - 1 ; i >= 0; i--)
 	{
 		if (b[i] != '0' && b[i] != '1')
 		{
