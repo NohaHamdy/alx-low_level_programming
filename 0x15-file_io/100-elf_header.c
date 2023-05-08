@@ -6,12 +6,21 @@
 #include<fcntl.h>
 #include<stdio.h>
 #include<stdlib.h>
+void DISPLAY_ABI_VERSION(unsigned char *e_ident);
 void DISPLAY_OSABI(unsigned char *e_ident);
 void CHECK_ELF_FILE(unsigned char *e_ident);
 void DISPLAY_MAGIC(unsigned char *e_ident);
 void DISPLAY_CLASS(unsigned char *e_ident);
 void DISPLAY_DATA(unsigned char *e_ident);
 void DISPLAY_VERSION(unsigned char *e_ident);
+/**
+ * DISPLAY_ABI_VERSION - displays the ABI version of an ELF file.
+ * @e_ident: a poiter to an array contains information of an ELF file.
+ */
+void DISPLAY_ABI_VERSION(unsigned char *e_ident)
+{
+	printf("ABI Version:                       %d\n", e_ident[EI_ABIVERSION]);
+}
 /**
  * DISPLAY_OSABI - displays the OS/ABI of an ELF header file .
  * @e_ident: a poiter to an array contains information of an ELF file
@@ -196,8 +205,8 @@ int main(int argc, char *argv[])
 	DISPLAY_DATA(H_buff->e_ident);
 	DISPLAY_VERSION(H_buff->e_ident);
 	DISPLAY_OSABI(H_buff->e_ident);
+	DISPLAY_ABI_VERSION(H_buff->e_ident);
 	/**
-	*DISPLAY_ABI/VERSION(H_buff->ident);
 	*DISPLAY_TYPE(H_buff->e_type, H_buff->e_ident);
 	*DISPLAY_ENTRY_POINT_ADDRESS(H_buff->e_entry ,H_buff->e_ident);
 	*/
