@@ -6,11 +6,57 @@
 #include<fcntl.h>
 #include<stdio.h>
 #include<stdlib.h>
+void DISPLAY_OSABI(unsigned char *e_ident);
 void CHECK_ELF_FILE(unsigned char *e_ident);
 void DISPLAY_MAGIC(unsigned char *e_ident);
 void DISPLAY_CLASS(unsigned char *e_ident);
 void DISPLAY_DATA(unsigned char *e_ident);
 void DISPLAY_VERSION(unsigned char *e_ident);
+/**
+ * DISPLAY_OSABI - displays the OS/ABI of an ELF header file .
+ * @e_ident: a poiter to an array contains information of an ELF file
+ */
+void DISPLAY_OSABI(unsigned char *e_ident)
+{
+	printf("OS/ABI:                            ");
+
+	switch (e_ident[EI_OSABI])
+	{
+		case ELFOSABI_SOLARIS:
+			printf("UNIX - Solaris\n");
+			break;
+		case ELFOSABI_HPUX:
+			printf("UNIX - HP-UX\n");
+			break;
+		case ELFOSABI_NONE:
+			printf("UNIX - System V\n");
+			break;
+		case ELFOSABI_FREEBSD:
+			printf("UNIX - FreeBSD\n");
+			break;
+		case ELFOSABI_ARM:
+			printf("ARM\n");
+			break;
+		case ELFOSABI_NETBSD:
+			printf("UNIX - NetBSD\n");
+			break;
+		case ELFOSABI_TRU64:
+			printf("UNIX - TRU64\n");
+			break;
+		case ELFOSABI_STANDALONE:
+			printf("Standalone App\n");
+			break;
+		case ELFOSABI_LINUX:
+			printf("UNIX - Linux\n");
+			break;
+		case ELFOSABI_IRIX:
+			printf("UNIX - IRIX\n");
+			break;
+		default:
+			printf("<unknown: %x>\n", e_ident[EI_OSABI]);
+			break;
+	}
+}
 /**
  *CHECK_ELF_FILE - a function to check if a file is an ELF file or not
  *@e_ident: Pointer to an array contains numbers as information of ELF file
@@ -149,8 +195,8 @@ int main(int argc, char *argv[])
 	DISPLAY_CLASS(H_buff->e_ident);
 	DISPLAY_DATA(H_buff->e_ident);
 	DISPLAY_VERSION(H_buff->e_ident);
+	DISPLAY_OSABI(H_buff->e_ident);
 	/**
-	*DISPLAY_OS/ABI(H_buff->e_ident);
 	*DISPLAY_ABI/VERSION(H_buff->ident);
 	*DISPLAY_TYPE(H_buff->e_type, H_buff->e_ident);
 	*DISPLAY_ENTRY_POINT_ADDRESS(H_buff->e_entry ,H_buff->e_ident);
