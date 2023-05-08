@@ -6,6 +6,8 @@
 #include<fcntl.h>
 #include<stdio.h>
 #include<stdlib.h>
+#include"main.h"
+void DISPLAY_NRY_PNT_ADD(unsigned long int e_entry, unsigned char *e_ident);
 void DISPLAY_TYPE(unsigned int e_type, unsigned char *e_ident);
 void DISPLAY_ABI_VERSION(unsigned char *e_ident);
 void DISPLAY_OSABI(unsigned char *e_ident);
@@ -14,6 +16,24 @@ void DISPLAY_MAGIC(unsigned char *e_ident);
 void DISPLAY_CLASS(unsigned char *e_ident);
 void DISPLAY_DATA(unsigned char *e_ident);
 void DISPLAY_VERSION(unsigned char *e_ident);
+/**
+ * DISPLAY_NRY_PNT_ADD - displays the entry point of an ELF file.
+ * @e_entry: address of the ELF entry point.
+ * @e_ident: pointer to an array containing the ELF class.
+ */
+void DISPLAY_NRY_PNT_ADD(unsigned long int e_entry, unsigned char *e_ident)
+{
+	printf("Entry point address:               ");
+	if (e_ident[EI_DATA] == ELFDATA2MSB)
+	{
+	e_entry = (e_entry & 0x00FF00FF) << 8 | (e_entry & 0xFF00FF00) >> 8;
+	e_entry = (e_entry & 0x0000FFFF) << 16 | (e_entry & 0xFFFF0000) >> 16;
+	}
+	if (e_ident[EI_CLASS] == ELFCLASS32)
+		printf("%#x\n", (unsigned int)e_entry);
+	else
+		printf("%#lx\n", e_entry);
+}
 /**
  * DISPLAY_TYPE - displays the type of an ELF file.
  * @e_type: typr of ELF.
@@ -242,9 +262,7 @@ int main(int argc, char *argv[])
 	DISPLAY_OSABI(H_buff->e_ident);
 	DISPLAY_ABI_VERSION(H_buff->e_ident);
 	DISPLAY_TYPE(H_buff->e_type, H_buff->e_ident);
-	/**
-	*DISPLAY_ENTRY_POINT_ADDRESS(H_buff->e_entry ,H_buff->e_ident);
-	*/
+	DISPLAY_NRY_PNT_ADD(H_buff->e_entry, H_buff->e_ident);
 	free(H_buff);
 	/*CLOSE_ELF_FILE();*/
 	return (0);
