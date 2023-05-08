@@ -1,6 +1,3 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<stddef.h>
 #include"main.h"
 /**
  *read_textfile - function that reads a text file and
@@ -20,19 +17,32 @@ ssize_t read_textfile(const char *filename, size_t letters)
 	{
 		return (0);
 	}
-	c = malloc(sizeof(char) * letters);
 	fp = fopen(filename, "r");
-	if (fp != NULL)
+	if (fp == NULL)
 	{
-		RD = fread(c, sizeof(char), letters, fp);
-		WR = fwrite(c, sizeof(char), RD, stdout);
-		if (WR != RD)
-		{
-			return (0);
-		}
+		return (0);
+	}
+	c = malloc(sizeof(char) * letters);
+	if (c == NULL)
+	{
+		fclose(fp);
+		return (0);
+	}
+	RD = fread(c, sizeof(char), letters, fp);
+	if (RD == 0)
+	{
 		free(c);
 		fclose(fp);
-		return (WR);
+		return (0);
 	}
-	return (0);
+	WR = fwrite(c, sizeof(char), RD, stdout);
+	if (WR != RD)
+	{
+		free(c);
+		fclose(fp);
+		return (0);
+	}
+	free(c);
+	fclose(fp);
+	return (WR);
 }
