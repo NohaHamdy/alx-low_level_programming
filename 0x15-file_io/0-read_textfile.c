@@ -22,7 +22,7 @@ ssize_t read_textfile(const char *filename, size_t letters)
 	{
 		return (0);
 	}
-	c = malloc(sizeof(char) * letters);
+	c = malloc(sizeof(char) * (letters + 1));
 	if (c == NULL)
 	{
 		fclose(fp);
@@ -35,6 +35,7 @@ ssize_t read_textfile(const char *filename, size_t letters)
 		fclose(fp);
 		return (0);
 	}
+	c[RD] = '\0';
 	WR = fwrite(c, sizeof(char), RD, stdout);
 	if (WR != RD)
 	{
