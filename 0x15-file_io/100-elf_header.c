@@ -232,8 +232,7 @@ int main(int argc, char *argv[])
 	int fd, RD;
 
 	if (argc != 2)
-	{
-		dprintf(STDERR_FILENO, "Error: wrong arguments count\n");
+	{	dprintf(STDERR_FILENO, "Error: wrong arguments count\n");
 		exit(98);
 	}
 	fd = open(argv[1], O_RDONLY);
@@ -243,8 +242,7 @@ int main(int argc, char *argv[])
 	}
 	H_buff = malloc(sizeof(Elf64_Ehdr));
 	if (H_buff == NULL)
-	{
-		dprintf(STDERR_FILENO, "Error: Buffer error for the file %s \n", argv[1]);
+	{	dprintf(STDERR_FILENO, "Error: Buffer error for the file %s \n", argv[1]);
 		exit(98);
 	}
 	RD = read(fd, H_buff, sizeof(Elf64_Ehdr));
@@ -264,6 +262,9 @@ int main(int argc, char *argv[])
 	DISPLAY_TYPE(H_buff->e_type, H_buff->e_ident);
 	DISPLAY_NRY_PNT_ADD(H_buff->e_entry, H_buff->e_ident);
 	free(H_buff);
-	/*CLOSE_ELF_FILE();*/
+	if (close(fd) == -1)
+	{	dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
+		exit(98);
+	}
 	return (0);
 }
